@@ -65,7 +65,7 @@ function* watchFetchDroneLocations() {
         // console.log("the_temp_F: " + data.data[i].the_temp_F);
       }
       yield put({ type: actions.DRONE_LOCATIONS_RECEIVED, data });
-      yield call(delay, 15000);
+      yield call(delay, 4000);
     }
     catch (err)
     {
