@@ -4,7 +4,6 @@ import * as actions from "../store/actions";
 import { compose, withProps, lifecycle } from 'recompose';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { withStyles } from "@material-ui/core/styles";
 
 const MyMapComponent = compose(
     withProps({
@@ -22,12 +21,7 @@ const MyMapComponent = compose(
                 position: null,
                 onMarkerMounted: ref => {
                     refs.marker = ref;
-                },
-
-                onPositionChanged: () => {
-                    const position = refs.marker.getPosition();
-                    // console.log(position.toString());
-                },
+                }
             });
         },
     }),
@@ -36,25 +30,23 @@ const MyMapComponent = compose(
 )(props => (
     <GoogleMap defaultZoom={6} defaultCenter={{ lat: 29.7604, lng: -95.3698 }}>
         {
-            Object.keys(props.data).map(item => {
-            if (props.data[item].accuracy > 50)
-            {
+            props.data.map(item => {
                 return (
 
                         <Marker
-                            position={{ lat: props.data[item].latitude, lng: props.data[item].longitude }}
+                            key={item.timestamp}
+                            position={{ lat: item.latitude, lng: item.longitude }}
                             draggable={false}
                             ref={props.onMarkerMounted}
                             onPositionChanged={props.onPositionChanged}
                             >
                             {
                                 <InfoWindow>
-                                <div className="marker-text">{props.data[item].the_temp_F}</div>
+                                    <div className="marker-text">{item.the_temp_F}</div>
                                 </InfoWindow>
                             }
                         </Marker>
                 )
-            }
         })}
     </GoogleMap>
 ));
@@ -68,20 +60,16 @@ class DroneLocations extends Component {
     this.props.onLoad();
   }
   render() {
-    // console.log("I'm getting to the render method");
     const {
       loading,
-      data,
-      error
+      data
     } = this.props;
     if (loading) return <LinearProgress />;
-    if (error != null) return (<h4>An error has occurred</h4>)
+    console.log("Data: " + {data});
     return (
-        <div>
-            <div>
-                <MyMapComponent data={data} />
-            </div>
-        </div>
+        <React.Fragment>
+            <MyMapComponent key={data.timestamp} data={data} />
+        </React.Fragment>
     );
   }
 }
@@ -89,13 +77,11 @@ class DroneLocations extends Component {
 const mapState = (state, ownProps) => {
   const {
     loading,
-    data,
-    error
+    data
   } = state.droneLocations;
   return {
     loading,
-    data,
-    error
+    data
   };
 };
 

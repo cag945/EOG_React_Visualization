@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import Wrapper from "./components/Wrapper";
 import Map from "./components/Map";
-// import MapReact from "./components/MapReact";
 
 const store = createStore();
 const theme = createMuiTheme({

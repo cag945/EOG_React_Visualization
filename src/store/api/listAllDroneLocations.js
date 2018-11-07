@@ -9,8 +9,7 @@ const listAllDroneLocations = async () => {
     return { error: { code: response.status } };
   }
   const json = await response.json();
-  json.data = json.data.filter(function(d) { return d.accuracy > 80; })
-  // console.log(json);
+  json.data = json.data.filter(coordinate => coordinate.accuracy >= 80)
   return { data: json};
 };
 

@@ -21,12 +21,10 @@ const weatherIDReceived = (state, action) => {
   return { ...state, weatherId: action.id };
 };
 
-const weatherDataRecevied = (state, action) => {
+const weatherDataReceived = (state, action) => {
   const { data } = action;
   if (!data["consolidated_weather"]) return state;
   const weather = data.consolidated_weather[0];
-  // console.log(weather);
-  // console.log(data);
   const { weather_state_name, the_temp } = weather;
   const { latt_long, title: name } = data;
   const [latitude, longitude] = latt_long.split(",");
@@ -47,12 +45,11 @@ const weatherDataRecevied = (state, action) => {
 const handlers = {
   [actions.FETCH_WEATHER]: startLoading,
   [actions.WEATHER_ID_RECEIVED]: weatherIDReceived,
-  [actions.WEATHER_DATA_RECEIVED]: weatherDataRecevied
+  [actions.WEATHER_DATA_RECEIVED]: weatherDataReceived
 };
 
 export default (state = initialState, action) => {
   const handler = handlers[action.type];
-  // console.log("Action Type is in Weather: " + action.type);
   if (typeof handler === "undefined") return state;
   return handler(state, action);
 };

@@ -10,7 +10,7 @@ const findLocationByLatLong = async (latitude, longitude) => {
     return { error: { code: response.status } };
   }
   const json = await response.json();
-  return { data: json, data2: json };
+  return { data: json, latLngData: json };
 };
 
 export default findLocationByLatLong;

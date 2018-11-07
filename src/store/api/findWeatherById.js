@@ -9,7 +9,7 @@ const findWeatherbyId = async id => {
     return { error: { code: response.status } };
   }
   const json = await response.json();
-  return { data: json, data3: json };
+  return { data: json, weatherData: json };
 };
 
 export default findWeatherbyId;

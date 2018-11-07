@@ -41,7 +41,6 @@ function* watchFetchWeather(action) {
     yield cancel();
     return;
   }
-  // console.log(latitude + " " + longitude);
   const location = data[0] ? data[0].woeid : false;
   if (!location) {
     yield put({ type: actions.API_ERROR });
